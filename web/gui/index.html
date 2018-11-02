@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="adminApp">
+  <head>
+    <!-- Title -->
+    <title>Meraki Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      .sortable {
+        cursor: pointer;
+      }
+      .sortable:after {
+        font-family: FontAwesome;
+        content: "\f0dc";
+        padding-left: 1em;
+      }
+      .st-sort-ascent:after {
+        font-family: FontAwesome;
+        content: "\f0de";
+      }
+      .st-sort-descent:after {
+        font-family: FontAwesome;
+        content: "\f0dd";
+      }
+
+      .st-page-right-arr:after {
+        font-family: FontAwesome;
+        content: "\f0dd";
+      }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-touch.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.11/smart-table.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+    <!-- App libs -->
+    <script src="app/app.js"></script>
+    <script src="app/controllers/controller.js"></script>
+    <script src="app/services/adminServices.js"></script>
+
+  </head>
+
+  <body>
+    <main>
+        <div ui-view="navbar"></div>
+        <div ui-view="portprofiles"></div>
+        <div ui-view="intro"></div>
+        <div ui-view="portconnectchecks"></div>
+        <div ui-view="settings"></div>
+    </main>
+  </body>
+</html>

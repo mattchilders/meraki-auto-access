@@ -1,0 +1,173 @@
+<style>
+  .btn-green {
+    background-color: #78BE1F;
+    border-color: #78BE1F;
+  }
+</style>
+
+<!-- New PortConnectCheck Modal -->
+<div class="modal fade" id="newPortConnectCheck" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <!--<div class="modal-content">-->
+    <form class="create-form modal-content" role="form" ng-submit="createPortConnectCheck(newPortConnectCheck)" novalidate>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add New Rule</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label>Rule Type</label>
+            <select class="form-control" ng-model="newPortConnectCheck.checktype" ng-options="type for type in checktypes"></select>
+          </div>
+        <div class="form-group">
+            <label>Match String (regex)</label>
+            <input type="text" class="form-control" ng-model="newPortConnectCheck.regstring" placeholder="Enter regex string for the match">
+          </div>
+        <div class="form-group">
+            <label>Port Profile</label>
+            <select class="form-control" ng-model="newPortConnectCheck.portprofile" ng-options="profile for profile in portProfiles"></select>
+          </div>
+        <div ng-show="createPortConnectCheckError" class="col-sm-12 alert alert-danger">{{ createPortConnectCheckError }}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
+    </form>
+    <!--</div> /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Edit PortProfile Modal -->
+<div class="modal fade" id="editPortConnectCheck" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <!--<div class="modal-content">-->
+    <form class="edit-form modal-content" role="form" ng-submit="updatePortConnectCheck(editedPortConnectCheck)" novalidate>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit Rule</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label>Rule Type</label>
+            <select class="form-control" ng-model="editedPortConnectCheck.checktype" ng-options="type for type in checktypes"></select>
+          </div>
+        <div class="form-group">
+            <label>Match String (regex) </label>
+            <input type="text" class="form-control" ng-model="editedPortConnectCheck.regstring" placeholder="Enter regex string for the match">
+          </div>
+         <div class="form-group">
+            <label>Port Profile</label>
+            <select class="form-control" ng-model="editedPortConnectCheck.portprofile" ng-options="profile for profile in portProfiles">
+            </select>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancelEditing()" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+    <!--</div> /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- Delete PortProfile Modal -->
+<div class="modal fade" id="deletePortConnectCheck" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Delete Rule</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Warning:</span>
+          Are you sure you want to delete this rule?  This action cannot be reversed!
+        </div>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <td>Rule Type</td>
+                <td>{{deletedPortConnectCheck.checktype}}</td>
+            </tr>
+            <tr>
+                <td>Match</td>
+                <td>{{deletedPortConnectCheck.regstring}}</td>
+            </tr>
+            <tr>
+                <td>Tags</td>
+                <td>{{deletedPortConnectCheck.portprofile}}</td>
+            </tr>
+        </table>
+        <div ng-show="deletePortConnectCheckError" class="col-sm-12 alert alert-danger">{{ deletePortConnectCheckError }}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger pull-left" ng-click="deletePortConnectCheck(deletedPortConnectCheck.id)">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-green " data-toggle="modal" data-target="#newPortConnectCheck">
+            New Rules
+        </button>
+        <br/>&nbsp;
+    </div>
+</div>
+<div class="row">
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <a class="btn btn-default btn-xs pull-right" ng-click="getPortConnectChecks();"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
+          <a class="btn btn-default btn-xs pull-right" ng-click="searchState=!searchState");"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+          <h3 class="panel-title">Auto Configurator Rules</h3></div>
+          <div class="panel-body table-responsive">
+            <table st-table="display_records" st-safe-src="portConnectChecks" class="table table-striped" style="margin-bottom: 0px;">
+              <thead>
+              <tr>
+                <th class="sortable" st-sort="checktype">Rule Type</th>
+                <th class="sortable" st-sort="regstring">Match</th>
+                <th class="sortable" st-sort="portprofile">Port Profile</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-show="searchState">
+                <th><input st-search="checktype" class="input-sm form-control" type="search"/></th>
+                <th><input st-search="regstring" class="input-sm form-control" type="search"/></th>
+                <th><input st-search="portprofile" class="input-sm form-control" type="search"/></th>
+                <th></th>
+              </tr>
+              <!--<tr ng-repeat="row in display_records">-->
+              <tr ng-repeat="row in display_records">
+                <td style="padding:2px;">{{row.checktype}}</td>
+                <td style="padding:2px;">{{row.regstring}}</td> 
+                <td style="padding:2px;">{{row.portprofile}}</td>
+                <td style="padding:2px;">
+                  <button type="button" class="btn btn-primary btn-xs" ng-click="setEditedPortConnectCheck(row)" data-toggle="modal" data-target="#editPortConnectCheck"><span class="glyphicon glyphicon-edit"></span></button>
+                  <button type="button" class="btn btn-danger btn-xs" ng-click="setDeletedPortConnectCheck(row)"><span class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#deletePortConnectCheck"></span></button>
+                </td>
+              </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="11">
+                    <div class="pull-left" style="padding: 8px;">Show
+                      <select ng-model="itemsByPage.selected" ng-options="val for val in itemsByPage.options">
+                      </select>
+                      Entries
+                    </div>
+                    <div class="pull-right" st-pagination="" st-template="app/partials/pagination.html" st-items-by-page="itemsByPage.selected" st-displayed-pages="7"></div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+      </div>
+</div>

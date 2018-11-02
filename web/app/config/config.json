@@ -1,0 +1,16 @@
+{
+  "current_env": "production",
+  "development": {
+    "username": "admin",
+    "password": "qwer1234",
+    "database": "retikulate",
+    "host": "dejavu.cuebr5p2f7sp.us-west-2.rds.amazonaws.com",
+    "dialect": "mysql"}
+},
+  "production": {
+    "username": "admin",
+    "password": "qwer1234",
+    "database": "abc",
+    "host": "dejavu.cuebr5p2f7sp.us-west-2.rds.amazonaws.com",
+    "dialect": "mysql"}
+}

@@ -1,0 +1,107 @@
+<style>
+  .horizontal-collapse {
+    height: 70px;
+  }
+  .navbar-collapse.in {
+    overflow-y: hidden;
+  }
+
+  .navbar-default {
+    background-color: #eeeeee;
+    border-color: #f4eae9;
+  }
+  .navbar-default .navbar-brand {
+    color: #ecf0f1;
+  }
+  .navbar-default .navbar-brand:hover,
+  .navbar-default .navbar-brand:focus {
+    color: #333333;
+  }
+  .navbar-default .navbar-text {
+    color: #ecf0f1;
+  }
+  .navbar-default .navbar-nav > li > a {
+    color: #888888;
+  }
+  .navbar-default .navbar-nav > li > a:hover,
+  .navbar-default .navbar-nav > li > a:focus {
+    color: #333333;
+  }
+  .navbar-default .navbar-nav > .active > a,
+  .navbar-default .navbar-nav > .active > a:hover,
+  .navbar-default .navbar-nav > .active > a:focus {
+    color: #333333;
+    background-color: #f4eae9;
+  }
+  .navbar-default .navbar-nav > .open > a,
+  .navbar-default .navbar-nav > .open > a:hover,
+  .navbar-default .navbar-nav > .open > a:focus {
+    color: #333333;
+    background-color: #f4eae9;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: #f4eae9;
+  }
+  .navbar-default .navbar-toggle:hover,
+  .navbar-default .navbar-toggle:focus {
+    background-color: #f4eae9;
+  }
+  .navbar-default .navbar-toggle .icon-bar {
+    background-color: #ecf0f1;
+  }
+  .navbar-default .navbar-collapse,
+  .navbar-default .navbar-form {
+    border-color: #ecf0f1;
+  }
+  .navbar-default .navbar-link {
+    color: #ecf0f1;
+  }
+  .navbar-default .navbar-link:hover {
+    color: #333333;
+  }
+  
+  @media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+      color: #ecf0f1;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+      color: #333333;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+      color: #333333;
+      background-color: #f4eae9;
+    }
+  }
+}
+</style>
+  
+<div>
+  <nav ng-controller="NavbarController" class="navbar navbar-default" role="navigation" >
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" ng-click="isNavCollapsed = !isNavCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" style="padding:5px; margin-left:15px;" href="/">
+          <img alt="Brand" style="height:36px;lenght:175px;" src="https://meraki.cisco.com/img/cisco-meraki.png">
+      </a>
+      
+    </div>
+    <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+      <ul class="nav navbar-nav">
+        <li>&nbsp&nbsp&nbsp&nbsp     </li>
+        <li ng-class="{'active':getClass('/intro/')}"><a ng-href="/"><i class="fas fa-info-circle"></i> Getting Started</a> </li>
+        <li ng-class="{'active':getClass('/portconnectchecks/')}"><a ng-href="#!/portconnectchecks"><i class="fas fa-tasks"></i> Rules</a> </li>
+        <li ng-class="{'active':getClass('/portprofiles/')}"><a ng-href="#!/portprofiles"><i class="fas fa-check"></i> Port Profiles</a> </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-class="{'active':getClass('/settings/')}"><a ng-href="#!/settings"><i class="fas fa-cog"></i> Settings</a> </li>
+      </ul>
+    </div>
+  </nav>
+</div>

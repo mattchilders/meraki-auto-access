@@ -1,0 +1,28 @@
+<div class="pagination" style="cursor: pointer; margin: 4px;" ng-if="pages.length >= 2">
+    <ul class="pagination" style="margin: 0px;">
+
+    <li>
+        <a ng-click="selectPage(1)" style="cursor: pointer;" aria-label="First">
+            <span aria-hidden="true"><i class="fas fa-angle-double-left"></i></span>
+        </a>
+    </li>
+    <li>
+        <a ng-click="selectPage(currentPage-1)" style="cursor: pointer;"  aria-label="Previous">
+            <span aria-hidden="true" font-family="FontAwesome"><i class="fas fa-angle-left"></i></span>
+        </a>
+    </li>
+
+    <li ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a style="cursor: pointer;" ng-click="selectPage(page)">{{page}}</a></li>
+
+    <li>
+        <a ng-click="selectPage(currentPage+1)" style="cursor: pointer;" aria-label="Next">
+            <span aria-hidden="true"><i class="fas fa-angle-right"></i></span>
+        </a>
+    </li>
+    <li>
+        <a href="" ng-click="selectPage(numPages)" style="cursor: pointer;" aria-label="Last">
+            <span aria-hidden="true"><i class="fas fa-angle-double-right"></i></span>
+        </a>
+    </li>
+    </ul>
+</div>
