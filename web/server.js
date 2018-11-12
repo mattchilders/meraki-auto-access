@@ -284,6 +284,31 @@ app.delete("/api/portconnectchecks/:id",function(req,res){
 
 
 
+app.get("/api/portconnectchecks/default/",function(req,res){
+    var query = "SELECT * FROM defaultportprofile;";
+    db.all(query, [], (err, rows) => {
+        if(err) {
+            res.json({"Error" : true, "Message" : err});
+        } else {
+            res.json({"Error" : false, "Message" : "Success", "data" : rows});
+        }
+    });
+});
+
+
+app.put("/api/portconnectchecks/update/default/",function(req,res){
+    var params  = req.body;
+    console.log(params);
+    var update = "UPDATE defaultportprofile set portprofile = ?;"
+    db.all(update, [params['portprofile']], (err, rows) => {
+        if(err) {
+            console.log(err);
+            res.json({"Error" : true, "Message" : err});
+        } else {
+            res.json({"Error" : false, "Message" : "Success", "data" : this.lastID});
+        }
+    });
+});
 
 
 /****************************************************************************************************************************************** 

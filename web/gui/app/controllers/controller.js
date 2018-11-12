@@ -229,17 +229,27 @@ app.controller('portConnectChecksController', function ($scope, $stateParams, po
 
   $scope.checktypes = ['cdp', 'lldp', 'mac'];
 
+
   $scope.getPortProfiles = function() {
      $scope.portProfiles = [];
+     $scope.defaultProfiles = ['None'];
      portProfileModel.get()
        .then(function (result) {
          $scope.portProfiles = result.data.data;
          var newprofiles = [];
          for (id in $scope.portProfiles){
             newprofiles.push( $scope.portProfiles[id].name)
+            $scope.defaultProfiles.push($scope.portProfiles[id].name)
          }
          $scope.portProfiles = newprofiles
        });
+  }
+
+  $scope.getPortProfileDefault = function() {
+    portConnectChecksModel.get_defaults()
+      .then(function(result) {
+        $scope.default_rule = result.data.data[0].portprofile;
+      });
   }
 
   $scope.getPortConnectChecks = function() {
@@ -325,10 +335,20 @@ app.controller('portConnectChecksController', function ($scope, $stateParams, po
 
   $scope.cancelEditing = function(portconnectcheck) {
     $scope.editedPortConnectCheck = portconnectcheck;
+
+  }
+
+  $scope.updateDefaultPortProfile = function(portprofile) {
+    portConnectChecksModel.update_defaults({"portprofile": portprofile})
+      .then(function (result) {
+        retval = result.data;
+        $scope.getPortProfileDefault();
+      });
   }
 
   $scope.getPortConnectChecks();
   $scope.getPortProfiles();
+  $scope.getPortProfileDefault();
   //$scope.initializePortConnectCheck();
 
 

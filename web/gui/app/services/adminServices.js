@@ -40,12 +40,20 @@ app.service('portConnectChecksModel', function ($http, ENDPOINT_URI) {
     return $http.get(getUrl());
   };
 
+  this.get_defaults = function () {
+    return $http.get(ENDPOINT_URI + 'portconnectchecks/default');
+  };
+
   this.create = function (checks) {
     return $http.post(getUrl(), checks);
   };
 
   this.update = function (id, checks) {
     return $http.put(getUrlForId(id), checks);
+  };
+
+  this.update_defaults = function (portprofile) {
+    return $http.put(ENDPOINT_URI + 'portconnectchecks/update/default/', portprofile);
   };
 
   this.delete = function (id) {

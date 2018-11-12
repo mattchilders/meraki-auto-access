@@ -10,6 +10,12 @@
     		<label>Meraki Webhook Secret</label>
         	<input type="text" class="form-control" ng-model="secret" placeholder="Enter Webhook Secret">
     	</div>
+
+        <div >
+            <a href="https://api.ciscospark.com/v1/authorize?client_id=C9bd6c2afa0dec3e2eb22fdab1404202439af35b5b7a6a831c1a3c4cfa9da816c&response_type=code&redirect_uri=https%3A%2F%2Fmeraki-aa.eastus.cloudapp.azure.com%2Foauth&scope=spark%3Akms%20spark%3Amessages_write&state=maastart"> Oauth </a>
+
+
+        </div>
     	<div ng-show="settingsSuccess" class="col-sm-12 alert alert-success">{{ settingsSuccess }}</div>
     	<div ng-show="settingsError" class="col-sm-12 alert alert-error">{{ settingsError }}</div>
     	<div>
@@ -18,3 +24,5 @@
     </form>
   </div>
 </div>
+
+
