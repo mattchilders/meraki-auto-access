@@ -151,7 +151,7 @@ app.delete("/api/portprofiles/:id",function(req,res){
 
 
 app.get("/api/portconnectchecks",function(req,res){
-    var query = "SELECT * FROM portconnectchecks;";
+    var query = "SELECT * FROM portconnectchecks order by rule_order;";
     db.all(query, [], (err, rows) => {
         if(err) {
             res.json({"Error" : true, "Message" : err});
@@ -165,28 +165,42 @@ app.get("/api/portconnectchecks",function(req,res){
 app.post("/api/portconnectchecks",function(req,res){
 	var params  = req.body;
 	console.log(params);
-    var insert = "INSERT INTO portconnectchecks (checktype, regstring, portprofile) \
-                  VALUES(?, ?, ?);"
     var values = [];
-    values.push(params['checktype']);
-    values.push(params['regstring']);
-    values.push(params['portprofile']);
-    console.log(insert);
-    console.log(values);
-    db.all(insert, values, (err, rows) => {
+    var update = "UPDATE portconnectchecks set rule_order = rule_order + 1 where rule_order >= ?"
+    values.push(params['rule_order']);
+    db.all(update, values, (err, rows) => {
         if(err) {
-        	console.log(err);
+            console.log(err);
             res.json({"Error" : true, "Message" : err});
         } else {
-            res.json({"Error" : false, "Message" : "Success", "data" : this.lastID});
+            var values = [];
+            var insert = "INSERT INTO portconnectchecks (checktype, regstring, portprofile, rule_order) \
+                  VALUES(?, ?, ?, ?);"
+            values.push(params['checktype']);
+            values.push(params['regstring']);
+            values.push(params['portprofile']);
+            values.push(params['rule_order']);
+            console.log(insert);
+            console.log(values);
+            db.all(insert, values, (err, rows) => {
+                if(err) {
+                    console.log(err);
+                    res.json({"Error" : true, "Message" : err});
+                } else {
+                    res.json({"Error" : false, "Message" : "Success", "data" : this.lastID});
+                }
+            });
         }
     });
 });
 
 
-app.put("/api/portconnectchecks/:id",function(req,res){
+/*app.put("/api/portconnectchecks/:id",function(req,res){
 	var params  = req.body;
 	var id = req.params.id
+    var update = "UPDATE portconnectchecks set order = order + 1 where order >= ?"
+    values.push(params['order']);
+
     var update = "UPDATE portconnectchecks set checktype = ?, regstring = ?, portprofile = ? where id = ?;"
     var values = [];
     values.push(params['checktype']);
@@ -202,19 +216,67 @@ app.put("/api/portconnectchecks/:id",function(req,res){
             res.json({"Error" : false, "Message" : "Success", "data" : this.lastID});
         }
     });
+});*/
+
+
+app.put("/api/portconnectchecks/:id",function(req,res){
+    var params  = req.body;
+    var id = req.params.id
+    var update = "UPDATE portconnectchecks set rule_order = rule_order - 1 where rule_order >= (select rule_order from portconnectchecks where id = ?) and rule_order <= ?"
+    db.all(update, [id, params['rule_order']], (err, rows) => {
+        if(err) {
+            console.log(err);
+            res.json({"Error" : true, "Message" : err});
+        } else {
+            var del = "DELETE FROM portconnectchecks where id = ?;"
+            db.all(del, [id], (err, rows) => {
+                if(err) {
+                    console.log(err);
+                    res.json({"Error" : true, "Message" : err});
+                } else {
+                    var values = [];
+                    var insert = "INSERT INTO portconnectchecks (checktype, regstring, portprofile, rule_order) \
+                          VALUES(?, ?, ?, ?);"
+                    values.push(params['checktype']);
+                    values.push(params['regstring']);
+                    values.push(params['portprofile']);
+                    values.push(params['rule_order']);
+                    console.log(insert);
+                    console.log(values);
+                    db.all(insert, values, (err, rows) => {
+                        if(err) {
+                            console.log(err);
+                            res.json({"Error" : true, "Message" : err});
+                        } else {
+                            res.json({"Error" : false, "Message" : "Success", "data" : this.lastID});
+                        }
+                    });
+                }
+            });
+        }
+    });
 });
+
 
 
 app.delete("/api/portconnectchecks/:id",function(req,res){
 	var id = req.params.id
-	var del = "DELETE FROM portconnectchecks where id = ?;"
-	db.all(del, [id], (err, rows) => {
+    var update = "UPDATE portconnectchecks set rule_order = rule_order - 1 where rule_order >= (select rule_order from portconnectchecks where id = ?)"
+    db.all(update, [id], (err, rows) => {
         if(err) {
-        	console.log(err);
+            console.log(err);
             res.json({"Error" : true, "Message" : err});
         } else {
-        	console.log("Deleted port profile " + id + rows);
-            res.json({"Error" : false, "Message" : "Success"});
+            var del = "DELETE FROM portconnectchecks where id = ?;"
+            db.all(del, [id], (err, rows) => {
+                if(err) {
+                    console.log(err);
+                    res.json({"Error" : true, "Message" : err});
+                } else {
+                    console.log("Deleted port profile " + id + rows);
+                    res.json({"Error" : false, "Message" : "Success"});
+                }
+            });
         }
     });
 });
@@ -312,8 +374,8 @@ app.post("/webhook",function(req,res){
             var options = {
                   mode: 'text',
                   pythonPath: '/usr/bin/python',
-                  pythonOptions: ['-u'],
-                  scriptPath: '/opt/meraki/web',
+                  puythonOptions: ['-u'],
+                  scriptPath: '/opt/meraki-auto-access/web',
                   args: ["merakimsg_" + randomfname + ".json"]
                 };
                 
@@ -329,4 +391,26 @@ app.post("/webhook",function(req,res){
         }
     });
 
+});
+
+
+/****************************************************************************************************************************************** 
+******************************************************************************************************************************************* 
+
+     /\ ________      _____   ____ _________________ ___  
+    / / \_____  \    /  _  \ |    |   \__    ___/   |   \ 
+   / /   /   |   \  /  /_\  \|    |   / |    | /    ~    \
+  / /   /    |    \/    |    \    |  /  |    | \    Y    /
+ / /    \_______  /\____|__  /______/   |____|  \___|_  / 
+ \/             \/         \/                         \/ 
+
+******************************************************************************************************************************************
+******************************************************************************************************************************************/
+
+
+app.get("/oauth",function(req,res){
+    var query  = req.query;
+    res.status(200);
+    res.send();
+    console.log(query.code);
 });

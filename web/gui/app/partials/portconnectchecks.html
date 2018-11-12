@@ -16,6 +16,10 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
+            <label>Rule Order</label>
+            <select class="form-control" ng-model="newPortConnectCheck.rule_order" ng-options="type for type in new_rule_orders"></select>
+        </div>
+        <div class="form-group">
             <label>Rule Type</label>
             <select class="form-control" ng-model="newPortConnectCheck.checktype" ng-options="type for type in checktypes"></select>
           </div>
@@ -49,6 +53,10 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
+            <label>Rule Order</label>
+            <select class="form-control" ng-model="editedPortConnectCheck.rule_order" ng-options="type for type in existing_rule_orders"></select>
+          </div>
+        <div class="form-group">
             <label>Rule Type</label>
             <select class="form-control" ng-model="editedPortConnectCheck.checktype" ng-options="type for type in checktypes"></select>
           </div>
@@ -61,6 +69,7 @@
             <select class="form-control" ng-model="editedPortConnectCheck.portprofile" ng-options="profile for profile in portProfiles">
             </select>
           </div>
+          <div ng-show="editPortConnectCheckError" class="col-sm-12 alert alert-danger">{{ editPortConnectCheckError }}</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancelEditing()" data-dismiss="modal">Close</button>
@@ -126,11 +135,12 @@
         <div class="panel-heading">
           <a class="btn btn-default btn-xs pull-right" ng-click="getPortConnectChecks();"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
           <a class="btn btn-default btn-xs pull-right" ng-click="searchState=!searchState");"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
-          <h3 class="panel-title">Auto Configurator Rules</h3></div>
+          <h3 class="panel-title">Auto Access Rules</h3></div>
           <div class="panel-body table-responsive">
             <table st-table="display_records" st-safe-src="portConnectChecks" class="table table-striped" style="margin-bottom: 0px;">
               <thead>
               <tr>
+                <th class="sortable" st-sort="rule_order">Rule Order</th>
                 <th class="sortable" st-sort="checktype">Rule Type</th>
                 <th class="sortable" st-sort="regstring">Match</th>
                 <th class="sortable" st-sort="portprofile">Port Profile</th>
@@ -138,7 +148,8 @@
               </tr>
               </thead>
               <tbody>
-              <tr ng-show="searchState">
+              <tr ng-show="searchState">                
+                <th><input st-search="rule_order" class="input-sm form-control" type="search"/></th>
                 <th><input st-search="checktype" class="input-sm form-control" type="search"/></th>
                 <th><input st-search="regstring" class="input-sm form-control" type="search"/></th>
                 <th><input st-search="portprofile" class="input-sm form-control" type="search"/></th>
@@ -146,6 +157,7 @@
               </tr>
               <!--<tr ng-repeat="row in display_records">-->
               <tr ng-repeat="row in display_records">
+                <td style="padding:2px;">{{row.rule_order}}</td>
                 <td style="padding:2px;">{{row.checktype}}</td>
                 <td style="padding:2px;">{{row.regstring}}</td> 
                 <td style="padding:2px;">{{row.portprofile}}</td>

@@ -246,12 +246,24 @@ app.controller('portConnectChecksController', function ($scope, $stateParams, po
      $scope.portConnectChecks = [];
      portConnectChecksModel.get()
        .then(function (result) {
-         $scope.portConnectChecks = result.data.data;
+          $scope.portConnectChecks = result.data.data;
+          $scope.next_rule = 0;
+          $scope.new_rule_orders = []
+          $scope.existing_rule_orders = []
+          for (i in $scope.portConnectChecks) {
+            $scope.new_rule_orders.push($scope.portConnectChecks[i].rule_order);
+            $scope.existing_rule_orders.push($scope.portConnectChecks[i].rule_order);
+            if ($scope.next_rule < $scope.portConnectChecks[i].rule_order) {
+              $scope.next_rule = $scope.portConnectChecks[i].rule_order;
+            }
+          };
+          $scope.new_rule_orders.push($scope.next_rule + 1);
+          $scope.initializePortConnectCheck()
        });
   }
 
   $scope.initializePortConnectCheck = function() {
-    $scope.newPortConnectCheck = {'checktype': '', 'regstring': '', 'portprofile': ''}
+    $scope.newPortConnectCheck = {'checktype': '', 'regstring': '', 'portprofile': '', 'rule_order': $scope.next_rule + 1}
   }
 
   $scope.createPortConnectCheck = function(portconnectcheck) {
@@ -291,6 +303,20 @@ app.controller('portConnectChecksController', function ($scope, $stateParams, po
       });
   }
 
+  $scope.updatePortConnectCheck = function(portconnectcheck) {
+    portConnectChecksModel.update(portconnectcheck.id, portconnectcheck)
+      .then(function (result) {
+        retval = result.data;
+        if (retval.Error == false) {
+          $scope.getPortConnectChecks();
+          $scope.editPortConnectCheckError = undefined
+          $('#editPortConnectCheck').modal('hide');
+        } else {
+          $scope.editPortConnectCheckError = retval.Message
+        }
+      });
+  }
+
   $scope.setEditedPortConnectCheck = function(portconnectcheck) {
     console.log(portconnectcheck);
     $scope.editedPortConnectCheck = angular.copy(portconnectcheck);;
@@ -303,7 +329,7 @@ app.controller('portConnectChecksController', function ($scope, $stateParams, po
 
   $scope.getPortConnectChecks();
   $scope.getPortProfiles();
-  $scope.initializePortConnectCheck();
+  //$scope.initializePortConnectCheck();
 
 
 });
