@@ -13,7 +13,7 @@ This also addresses additional use cases such as moves, adds, and changes.  Anyt
 
 ## Proposed Solution
 
-Meraki Auto-Access (MAA) will use the webhooks feature which has recently been added to the Meraki cloud platform.  MAA will receive incoming webhooks form the Meraki cloud to auto configure switchports.  The service will consist primarily of a nodejs server for the API and webhook reception, as well as python to configure the ports with exisiting Meraki libraries.  Future iterations could also extend this functionality to automatically configure access points as they come online.
+Meraki Auto-Access (MAA) will use the webhooks feature which has recently been added to the Meraki cloud platform.  MAA will receive incoming webhooks form the Meraki cloud to auto configure switchports.  The service will consist primarily of a nodejs server for the API and webhook reception, as well as python to configure the ports with existing Meraki libraries.  Future iterations could also extend this functionality to automatically configure access points as they come online.
 
 The solution will have two fundamental building blocks:
 + **Port profiles** will be a descriptive name for a port configuration including (vlans, poe, spanning tree, trunk/access etc).  
