@@ -13,27 +13,28 @@ This also addresses additional use cases such as moves, adds, and changes.  Anyt
 
 ## Proposed Solution
 
+Meraki Auto-Access (MAA) will use the webhooks feature which has recently been added to the Meraki cloud platform.  MAA will receive incoming webhooks form the Meraki cloud to auto configure switchports.  The service will consist primarily of a nodejs server for the API and webhook reception, as well as python to configure the ports with existing Meraki libraries.  Future iterations could also extend this functionality to automatically configure access points as they come online.
 
-**TODO:** 1-3 paragraphs of the solution in written format
+The solution will have two fundamental building blocks:
++ **Port profiles** will be a descriptive name for a port configuration including (vlans, poe, spanning tree, trunk/access etc).  
++ **MAA rules** will map CDP/LLDP/MAC attributes to a port profile.  
+
+Any time a new device comes online, MAA will consult the rules the user has defined and automatically configure the switchport.  Integration with Webex teams will allow for alerting to a team-monitored space for exceptions and notifications.
+
+![alt text](https://github.com/mattchilders/meraki-auto-access/blob/master/web/gui/maa-overview.png "Meraki Auto-Access Overview")
 
 
 ### Cisco Products Technologies/ Services
-
-**TODO:** List out major technologies included in the solution (ACI, DNAC, third party, etc) e.g
-
 Our solution will levegerage the following Cisco technologies
 
-* [Application Centric Infrastructure (ACI)](http://cisco.com/go/aci)
-* [DNA Center (DNA-C)](http://cisco.com/go/dna)
++ Meraki Dashboard API
++ Webex Teams
+
 
 ## Team Members
 
-
-**TODO:** ASIC projects must consist of a minimum of 2 SE’s
-representing a minimum of 2 segments. List names here
-
-* team member1 <email> - Segment Name
-* team member2 <email> - Segment Name
++ Matt Childers <machilde@cisco.com> - Global Enterprise Segment
++ Tim Wilhoit <tiwilhoi@cisco.com> - Global Enterprise Segment
 
 
 ## Solution Components
