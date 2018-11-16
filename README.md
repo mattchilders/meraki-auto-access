@@ -35,6 +35,7 @@ Our solution will levegerage the following Cisco technologies
 
 + Matt Childers <machilde@cisco.com> - Global Enterprise Segment
 + Tim Wilhoit <tiwilhoi@cisco.com> - Global Enterprise Segment
++ Jason Smith <jasons2@cisco.com> - Customer Experience
 
 
 ## Solution Components
