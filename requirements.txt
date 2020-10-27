@@ -7,7 +7,7 @@ cffi==1.11.5
 chardet==3.0.4
 Click==7.0
 cookiecutter==1.6.0
-cryptography==2.1.4
+cryptography==3.2
 enum34==1.1.6
 future==0.17.1
 gyp==0.1
